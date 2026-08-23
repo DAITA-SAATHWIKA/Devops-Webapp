@@ -18,3 +18,11 @@ jobs:
           echo "Building static website..."
           test -f index.html
           echo "Build successful!"
+
+      - name: Send Slack Notification
+        if: success()
+        run: |
+          curl -X POST \
+          -H "Content-type: application/json" \
+          --data '{"text":"Devops-Webapp Build Completed Successfully!"}' \
+          "${{ secrets.SLACK_WEBHOOK_URL }}"
